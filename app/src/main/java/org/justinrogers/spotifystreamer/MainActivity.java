@@ -3,6 +3,7 @@ package org.justinrogers.spotifystreamer;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,8 +14,29 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Artists;
+import kaaes.spotify.webapi.android.models.ArtistsPager;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 
 public class MainActivity extends ActionBarActivity {
+
+    SpotifyApi api = new SpotifyApi();
+
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +84,24 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void searchArtists() {
-        Toast.makeText(getApplicationContext(), "No artist by that name was found", Toast.LENGTH_SHORT).show();
+        final EditText artistName = (EditText) findViewById(R.id.artist_search);
+        SpotifyService spotify = api.getService();
+        spotify.searchArtists(artistName.getText().toString(), new Callback<ArtistsPager>() {
+            @Override
+            public void success(ArtistsPager artistsPager, Response response) {
+                Object[] artistsArr = artistsPager.artists.items.toArray();
+//                for (int i = 0; i < artistsArr.length; i++) {
+//
+//                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("Artist failure: ", error.toString());
+
+            }
+        });
+//        Toast.makeText(getApplicationContext(), artistName.getText().toString(), Toast.LENGTH_SHORT).show();
         InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
