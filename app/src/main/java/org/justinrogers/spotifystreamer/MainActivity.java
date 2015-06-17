@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -90,9 +92,11 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void success(ArtistsPager artistsPager, Response response) {
                 Object[] artistsArr = artistsPager.artists.items.toArray();
-//                for (int i = 0; i < artistsArr.length; i++) {
-//
-//                }
+                for (int i = 0; i < artistsArr.length; i++) {
+                    Gson gson = new Gson();
+                    String tempJSON = gson.toJson(artistsArr[i]);
+                    Log.d("JSON Object ", tempJSON);
+                }
             }
 
             @Override
