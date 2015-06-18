@@ -5,16 +5,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,16 +33,44 @@ import java.util.Objects;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.Artists;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
 import retrofit.Callback;
+import retrofit.Endpoint;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+public class ArtistAdapter extends ArrayAdapter<Artist> {
+
+    public ArtistAdapter(Context context, int resource, List<Artist> artistList) {
+        super(context, resource, artistList);
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View rowView = inflater.inflate(R.layout.activity_main, parent, false);
+        TextView textView = (TextView) rowView.findViewById(R.id.label);
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+        textView.setText(values[position]);
+
+        if (artist.images.size() > 0) {
+            int littleThumbnailPos = artist.images.size() - 1;
+            Picasso.with(parent.getContext()).load(artist.images.get(littleThumbnailPos).url).into(viewHolder.thumbnail);
+        }
+
+        return convertView;
+    }
+
+}
 
 public class MainActivity extends ActionBarActivity {
 
+    ArrayList<Artist> artistsList = new ArrayList<Artist>();
+
     SpotifyApi api = new SpotifyApi();
+    SpotifyService spotify = api.getService();
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -85,18 +119,20 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public void searchArtists() {
         final EditText artistName = (EditText) findViewById(R.id.artist_search);
-        SpotifyService spotify = api.getService();
         spotify.searchArtists(artistName.getText().toString(), new Callback<ArtistsPager>() {
             @Override
             public void success(ArtistsPager artistsPager, Response response) {
-                Object[] artistsArr = artistsPager.artists.items.toArray();
-                for (int i = 0; i < artistsArr.length; i++) {
-                    Gson gson = new Gson();
-                    String tempJSON = gson.toJson(artistsArr[i]);
-                    Log.d("JSON Object ", tempJSON);
-                }
+                artistsList.addAll(artistsPager.artists.items);
+                Log.d("Artist Success", artistsPager.artists.items.toArray()[0].toString());
+//                Object[] artistsObjArr = artistsPager.artists.items.toArray();
+//                for (int i = 0; i < artistsObjArr.length; i++) {
+//                    Gson gson = new Gson();
+//                    String artistJson = gson.toJson(artistsObjArr[i]);
+//                    Log.d("Artist JSON", artistJson("name").toString());
+//                }
             }
 
             @Override

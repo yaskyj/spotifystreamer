@@ -20,8 +20,8 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/artist_search_list"
+        android:id="@+id/artist_search_list"
+        android:layout_below="@+id/artist_search"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="38dp" />
