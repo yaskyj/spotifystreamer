@@ -42,28 +42,6 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ArtistAdapter extends ArrayAdapter<Artist> {
-
-    public ArtistAdapter(Context context, int resource, List<Artist> artistList) {
-        super(context, resource, artistList);
-    }
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.activity_main, parent, false);
-        TextView textView = (TextView) rowView.findViewById(R.id.label);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        textView.setText(values[position]);
-
-        if (artist.images.size() > 0) {
-            int littleThumbnailPos = artist.images.size() - 1;
-            Picasso.with(parent.getContext()).load(artist.images.get(littleThumbnailPos).url).into(viewHolder.thumbnail);
-        }
-
-        return convertView;
-    }
-
-}
 
 public class MainActivity extends ActionBarActivity {
 
