@@ -54,7 +54,7 @@ public class ArtistsSearchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.search_fragment, container, false);
+        final View rootView = inflater.inflate(R.layout.search_fragment, container, false);
         artistView = (ListView) rootView.findViewById(R.id.artist_search_list);
         EditText artistText = (EditText) rootView.findViewById(R.id.artist_search);
         artistText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -67,8 +67,8 @@ public class ArtistsSearchFragment extends Fragment {
                     artistsTask.execute(artistName.getText().toString());
                     handled = true;
                 }
-//                InputMethodManager inputManager = (InputMethodManager) getSystemService(getActivity().INPUT_METHOD_SERVICE);
-//                inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(rootView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 return handled;
             }
         });
