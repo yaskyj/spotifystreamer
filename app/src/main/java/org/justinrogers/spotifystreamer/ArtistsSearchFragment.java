@@ -1,5 +1,6 @@
 package org.justinrogers.spotifystreamer;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -65,39 +67,14 @@ public class ArtistsSearchFragment extends Fragment {
                     artistsTask.execute(artistName.getText().toString());
                     handled = true;
                 }
+//                InputMethodManager inputManager = (InputMethodManager) getSystemService(getActivity().INPUT_METHOD_SERVICE);
+//                inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 return handled;
             }
         });
         artistView.setAdapter(mArtistAdapter);
         return rootView;
     }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//    }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     public class FetchArtistsTask extends AsyncTask<String, Void, List<Artist>> {
 
@@ -116,7 +93,7 @@ public class ArtistsSearchFragment extends Fragment {
                 Log.d(LOG_TAG, artistsPager.getClass().toString());
                 return artistsPager.artists.items;
             } catch (RetrofitError error) {
-                Log.e("LOG_TAG", error.toString());
+                Log.e(LOG_TAG, error.toString());
                 return null;
             }
         }
@@ -124,18 +101,12 @@ public class ArtistsSearchFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Artist> result) {
             if (result.isEmpty()) {
-                Toast.makeText(getActivity(), "Artist not found.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Artist not found. Please refine search term.", Toast.LENGTH_SHORT).show();
             } else {
                 mArtistAdapter.clear();
                 mArtistAdapter.addAll(result);
             }
         }
-
-
-
-//        Toast.makeText(getApplicationContext(), artistName.getText().toString(), Toast.LENGTH_SHORT).show();
-//        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 }
