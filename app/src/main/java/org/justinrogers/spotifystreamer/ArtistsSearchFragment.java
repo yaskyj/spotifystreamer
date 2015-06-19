@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -73,6 +74,17 @@ public class ArtistsSearchFragment extends Fragment {
             }
         });
         artistView.setAdapter(mArtistAdapter);
+        artistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                String spotifyId = mArtistAdapter.getItem(position).id;
+                Intent intent = new Intent(getActivity(), ArtistTracksActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, spotifyId)
+                        .putExtra("artistName", mArtistAdapter.getItem(position).name);
+                startActivity(intent);
+            }
+        });
         return rootView;
     }
 
