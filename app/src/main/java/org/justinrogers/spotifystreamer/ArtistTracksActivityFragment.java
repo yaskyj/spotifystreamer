@@ -12,6 +12,9 @@ import android.view.ViewGroup;
  */
 public class ArtistTracksActivityFragment extends Fragment {
 
+    private static final String LOG_TAG = ArtistTracksActivity.class.getSimpleName();
+    private TrackAdapter mTrackAdapter;
+
     public ArtistTracksActivityFragment() {
     }
 
