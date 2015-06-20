@@ -1,5 +1,6 @@
 package org.justinrogers.spotifystreamer;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,10 +9,20 @@ import android.view.MenuItem;
 
 public class ArtistTracksActivity extends ActionBarActivity {
 
+    String mArtistName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        mArtistName = intent.getStringExtra("artistName");
+        getSupportActionBar().setSubtitle(mArtistName);
         setContentView(R.layout.activity_artist_tracks);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new ArtistTracksActivityFragment())
+                    .commit();
+        }
     }
 
 
