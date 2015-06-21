@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -37,8 +38,15 @@ public class ArtistTracksActivityFragment extends Fragment {
     private static final String LOG_TAG = ArtistTracksActivity.class.getSimpleName();
     private String mArtistId;
     private TrackAdapter mTrackAdapter;
+    private ArrayList<Track> tracksList = new ArrayList<Track>();
 
     public ArtistTracksActivityFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+        mTrackAdapter = new TrackAdapter(getActivity(), R.layout.fragment_artist_tracks, tracksList);
     }
 
     @Override
@@ -56,11 +64,11 @@ public class ArtistTracksActivityFragment extends Fragment {
         return rootView;
     }
 
-    public class FetchArtistTracks extends AsyncTask<String, Void, List<Track>> {
+    public class FetchArtistTracks extends AsyncTask<String, Void, Tracks> {
         private final String LOG_TAG = FetchArtistTracks.class.getSimpleName();
 
         @Override
-        protected List<Track> doInBackground(String... params) {
+        protected Tracks doInBackground(String... params) {
             if (params.length == 0) {
                 return null;
             }
@@ -68,27 +76,34 @@ public class ArtistTracksActivityFragment extends Fragment {
             SpotifyService spotify = api.getService();
             Map<String, Object> options = new HashMap<String, Object>();
             options.put("country", "US");
-            spotify.getArtistTopTrack(params[0], options, new Callback<Tracks>() {
-                @Override
-                public void success(Tracks tracks, Response response) {
-                    Log.d(LOG_TAG, tracks.getClass().toString());
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.d(LOG_TAG, error.toString());
-                }
-            });
-            return null;
+            try {
+                Tracks tracks = spotify.getArtistTopTrack(params[0], options);
+                Log.d(LOG_TAG, tracks.tracks.getClass().toString());
+                return tracks;
+            } catch (RetrofitError error) {
+                Log.e(LOG_TAG, error.toString());
+                return null;
+            }
+//            spotify.getArtistTopTrack(params[0], options, new Callback<Tracks>() {
+//                @Override
+//                public void success(Tracks tracks, Response response) {
+//                    Log.d(LOG_TAG, tracks.getClass().toString());
+//                }
+//
+//                @Override
+//                public void failure(RetrofitError error) {
+//                    Log.d(LOG_TAG, error.toString());
+//                }
+//            });
         }
 
         @Override
-        protected void onPostExecute(List<Track> result) {
-            if (result.isEmpty()) {
+        protected void onPostExecute(Tracks result) {
+            if (result.tracks.isEmpty()) {
                 Toast.makeText(getActivity(), "This artist does not have any tracks available in your country.", Toast.LENGTH_SHORT).show();
             } else {
                 mTrackAdapter.clear();
-                mTrackAdapter.addAll(result);
+                mTrackAdapter.addAll(result.tracks);
             }
         }
     }
