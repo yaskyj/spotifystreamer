@@ -1,13 +1,16 @@
+/*
+ * Copyright (C) 2015 Justin Rogers
+ */
+
 package org.justinrogers.spotifystreamer;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+/** Basic Activity for the Top Ten Artist tracks and activates the Activity Fragment*/
 public class ArtistTracksActivity extends AppCompatActivity {
 
     String mArtistName;

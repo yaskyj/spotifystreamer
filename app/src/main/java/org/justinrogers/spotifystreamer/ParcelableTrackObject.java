@@ -1,10 +1,13 @@
+/*
+ * Copyright (C) 2015 Justin Rogers
+ */
 package org.justinrogers.spotifystreamer;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by arkham on 6/21/15.
+ * Creates Parcelable object for the Top Ten track information to be passed to the SavedInstanceState
  */
 public class ParcelableTrackObject implements Parcelable {
 
@@ -12,6 +15,9 @@ public class ParcelableTrackObject implements Parcelable {
     public String mAlbum;
     public String mThumbnail;
 
+    /*
+    * Takes a Name, Album, and Thumbnail input on object creation
+    */
     public ParcelableTrackObject(String name, String album, String thumbnail) {
         this.mName = name;
         this.mAlbum = album;

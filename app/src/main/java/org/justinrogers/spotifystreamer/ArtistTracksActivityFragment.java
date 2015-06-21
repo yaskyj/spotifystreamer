@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Justin Rogers
+ */
+
 package org.justinrogers.spotifystreamer;
 
 import android.content.Intent;
@@ -23,7 +27,7 @@ import retrofit.RetrofitError;
 
 
 /**
- * A placeholder fragment containing a simple view.
+ * Fragment that implements the Spotify api for Top Ten tracks from a given artist.
  */
 public class ArtistTracksActivityFragment extends Fragment {
 
@@ -31,7 +35,6 @@ public class ArtistTracksActivityFragment extends Fragment {
     private String mArtistId;
     private TrackAdapter mTrackAdapter;
     private ArrayList<ParcelableTrackObject> tracksList;
-    ListView trackListView;
 
     public ArtistTracksActivityFragment() {
     }
@@ -71,6 +74,10 @@ public class ArtistTracksActivityFragment extends Fragment {
     public class FetchArtistTracks extends AsyncTask<String, Void, Tracks> {
         private final String LOG_TAG = FetchArtistTracks.class.getSimpleName();
 
+        /**
+         * Creates Spotify service and uses the passed Artist id and gets the country from
+         * the phone configuration
+         */
         @Override
         protected Tracks doInBackground(String... params) {
             if (params.length == 0) {
@@ -96,6 +103,9 @@ public class ArtistTracksActivityFragment extends Fragment {
             if (result.tracks.isEmpty()) {
                 Toast.makeText(getActivity(), "This artist does not have any tracks available in your country.", Toast.LENGTH_SHORT).show();
             } else {
+                /**
+                 * Creates the ParcelableTrackObject using the returned information from the API call
+                 */
                 mTrackAdapter.clear();
                 for (Track track : result.tracks) {
                     String imageUrl = track.album.images.get(track.album.images.size() - 1).url;

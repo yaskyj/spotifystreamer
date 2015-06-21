@@ -1,3 +1,6 @@
+/*
+ * Copyright (C) 2015 Justin Rogers
+ */
 package org.justinrogers.spotifystreamer;
 
 import android.content.Context;
@@ -12,11 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import kaaes.spotify.webapi.android.models.Artist;
-import kaaes.spotify.webapi.android.models.Track;
-
-/**
- * Created by arkham on 6/20/15.
+/*
+ * Custom adapter for the Top 10 tracks. Uses the ParcelableTrackObject.
  */
 public class TrackAdapter extends ArrayAdapter<ParcelableTrackObject> {
 
@@ -32,6 +32,9 @@ public class TrackAdapter extends ArrayAdapter<ParcelableTrackObject> {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_item_tracks, parent, false);
         }
+        /*
+        * Sets the various items to their respective views in the list layout.
+        */
         ParcelableTrackObject track = getItem(position);
         TextView songNameView = (TextView) convertView.findViewById(R.id.list_song_name);
         songNameView.setText(track.mName);
@@ -39,13 +42,6 @@ public class TrackAdapter extends ArrayAdapter<ParcelableTrackObject> {
         albumNameView.setText(track.mAlbum);
         ImageView albumImageView = (ImageView) convertView.findViewById(R.id.list_track_image);
         Picasso.with(getContext()).load(track.mThumbnail).into(albumImageView);
-//        Picasso.with(getContext()).load(track.album.images.get(littleThumbnailPos).url).into(albumImageView);
-//        if (track.album.images.size() > 0) {
-//            int littleThumbnailPos = track.album.images.size() - 1;
-//            Picasso.with(getContext()).load(track.album.images.get(littleThumbnailPos).url).into(albumImageView);
-//        } else {
-//            Picasso.with(getContext()).load(R.drawable.default_image_substitute).into(albumImageView);
-//        }
         return convertView;
     }
 }

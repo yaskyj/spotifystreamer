@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Justin Rogers
+ */
+
 package org.justinrogers.spotifystreamer;
 
 import android.content.Context;
@@ -7,8 +11,6 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -25,14 +27,12 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
-import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
 import android.content.Intent;
 import android.widget.Toast;
 
 /**
- * Created by arkham on 6/18/15.
+ * Fragment for populating the Artists List on the Spotify api search for artist name
  */
 public class ArtistsSearchFragment extends Fragment {
 
@@ -47,12 +47,6 @@ public class ArtistsSearchFragment extends Fragment {
     public ArtistsSearchFragment() {
     }
 
-//    @Override
-//    public void onSavedInstanceState(Bundle savedInstanceState) {
-//        super.onSaveInstanceState(savedInstanceState);
-//        savedInstanceState
-//    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +58,7 @@ public class ArtistsSearchFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.search_fragment, container, false);
         artistView = (ListView) rootView.findViewById(R.id.artist_search_list);
         EditText artistText = (EditText) rootView.findViewById(R.id.artist_search);
+        /** Listens for search button press and executes FetchArtistsTask */
         artistText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -97,7 +92,7 @@ public class ArtistsSearchFragment extends Fragment {
     public class FetchArtistsTask extends AsyncTask<String, Void, List<Artist>> {
 
         private final String LOG_TAG = FetchArtistsTask.class.getSimpleName();
-
+        /** Creates Spotify service and calls the search api for text entered into EditText box*/
         @Override
         protected List<Artist> doInBackground(String... params) {
             if (params.length == 0) {

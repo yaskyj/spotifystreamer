@@ -1,7 +1,10 @@
+/*
+ * Copyright (C) 2015 Justin Rogers
+ */
+
 package org.justinrogers.spotifystreamer;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +14,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Album;
-import kaaes.spotify.webapi.android.models.Albums;
-import kaaes.spotify.webapi.android.models.AlbumsPager;
 import kaaes.spotify.webapi.android.models.Artist;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+
 
 /**
- * Created by arkham on 6/18/15.
+ * Implements Customer Adapter for the Artists List produced from search
  */
 public class ArtistAdapter extends ArrayAdapter<Artist> {
 
