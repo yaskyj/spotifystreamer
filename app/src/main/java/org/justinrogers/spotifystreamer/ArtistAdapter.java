@@ -38,7 +38,7 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item_artists, null);
+            convertView = inflater.inflate(R.layout.list_item_artists, parent,false);
         }
         Artist artist = getItem(position);
         TextView artistNameView = (TextView) convertView.findViewById(R.id.list_artist_name);

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -79,6 +80,16 @@ public class ArtistTracksActivityFragment extends Fragment {
                 }
             });
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Track> result) {
+            if (result.isEmpty()) {
+                Toast.makeText(getActivity(), "This artist does not have any tracks available in your country.", Toast.LENGTH_SHORT).show();
+            } else {
+                mTrackAdapter.clear();
+                mTrackAdapter.addAll(result);
+            }
         }
     }
 }
