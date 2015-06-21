@@ -75,7 +75,8 @@ public class ArtistTracksActivityFragment extends Fragment {
             SpotifyApi api = new SpotifyApi();
             SpotifyService spotify = api.getService();
             Map<String, Object> options = new HashMap<String, Object>();
-            options.put("country", "US");
+            String country = getActivity().getResources().getConfiguration().locale.getCountry();
+            options.put("country", country);
             try {
                 Tracks tracks = spotify.getArtistTopTrack(params[0], options);
                 Log.d(LOG_TAG, tracks.tracks.getClass().toString());
@@ -84,17 +85,6 @@ public class ArtistTracksActivityFragment extends Fragment {
                 Log.e(LOG_TAG, error.toString());
                 return null;
             }
-//            spotify.getArtistTopTrack(params[0], options, new Callback<Tracks>() {
-//                @Override
-//                public void success(Tracks tracks, Response response) {
-//                    Log.d(LOG_TAG, tracks.getClass().toString());
-//                }
-//
-//                @Override
-//                public void failure(RetrofitError error) {
-//                    Log.d(LOG_TAG, error.toString());
-//                }
-//            });
         }
 
         @Override
