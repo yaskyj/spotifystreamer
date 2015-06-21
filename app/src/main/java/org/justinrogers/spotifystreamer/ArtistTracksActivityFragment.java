@@ -13,21 +13,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Artist;
-import kaaes.spotify.webapi.android.models.ArtistsPager;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
-import kaaes.spotify.webapi.android.models.TracksPager;
-import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 
 /**
@@ -38,14 +30,26 @@ public class ArtistTracksActivityFragment extends Fragment {
     private static final String LOG_TAG = ArtistTracksActivity.class.getSimpleName();
     private String mArtistId;
     private TrackAdapter mTrackAdapter;
-    private ArrayList<Track> tracksList = new ArrayList<Track>();
+    private ArrayList<ParcelableTrackObject> tracksList;
+    ListView trackListView;
 
     public ArtistTracksActivityFragment() {
     }
 
     @Override
-    public void onCreate(Bundle saveInstanceState) {
-        super.onCreate(saveInstanceState);
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("TrackList", tracksList);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            tracksList = savedInstanceState.getParcelable("TracksList");
+        } else {
+            tracksList = new ArrayList<ParcelableTrackObject>();
+        }
         mTrackAdapter = new TrackAdapter(getActivity(), R.layout.fragment_artist_tracks, tracksList);
     }
 
@@ -56,8 +60,8 @@ public class ArtistTracksActivityFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         mArtistId = intent.getStringExtra(Intent.EXTRA_TEXT);
-        ListView listView = (ListView) rootView.findViewById((R.id.artist_track_list));
-        listView.setAdapter(mTrackAdapter);
+        ListView trackList = (ListView) rootView.findViewById((R.id.artist_track_list));
+        trackList.setAdapter(mTrackAdapter);
         FetchArtistTracks tracksTask = new FetchArtistTracks();
         tracksTask.execute(mArtistId);
 
@@ -93,7 +97,11 @@ public class ArtistTracksActivityFragment extends Fragment {
                 Toast.makeText(getActivity(), "This artist does not have any tracks available in your country.", Toast.LENGTH_SHORT).show();
             } else {
                 mTrackAdapter.clear();
-                mTrackAdapter.addAll(result.tracks);
+                for (Track track : result.tracks) {
+                    String imageUrl = track.album.images.get(track.album.images.size() - 1).url;
+                    ParcelableTrackObject parcelableTrackObject = new ParcelableTrackObject(track.name, track.album.name, imageUrl);
+                    mTrackAdapter.add(parcelableTrackObject);
+                }
             }
         }
     }

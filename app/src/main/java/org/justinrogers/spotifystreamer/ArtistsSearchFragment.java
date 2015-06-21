@@ -47,6 +47,12 @@ public class ArtistsSearchFragment extends Fragment {
     public ArtistsSearchFragment() {
     }
 
+//    @Override
+//    public void onSavedInstanceState(Bundle savedInstanceState) {
+//        super.onSaveInstanceState(savedInstanceState);
+//        savedInstanceState
+//    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +70,8 @@ public class ArtistsSearchFragment extends Fragment {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     EditText artistName = (EditText) getActivity().findViewById(R.id.artist_search);
-                    FetchArtistsTask artistsTask = new FetchArtistsTask();
-                    artistsTask.execute(artistName.getText().toString());
+                    FetchArtistsTask fetchArtistsTask = new FetchArtistsTask();
+                    fetchArtistsTask.execute(artistName.getText().toString());
                     handled = true;
                 }
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

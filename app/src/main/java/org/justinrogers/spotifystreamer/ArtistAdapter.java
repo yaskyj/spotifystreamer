@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -52,6 +53,10 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
         }
 
         return convertView;
+    }
+
+    public List<Artist> getValues(List<Artist> artistList) {
+        return artistList;
     }
 
 }
