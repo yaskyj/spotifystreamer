@@ -3,12 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TableRow>
-        <TableLayout>
+        <ImageView
+            android:id="@+id/list_track_image"
+            android:layout_width="@dimen/thumbnail_size"
+            android:layout_height="@dimen/thumbnail_size"
+            android:layout_margin="@dimen/track_image_margin"/>
+        <TableLayout
+            android:layout_gravity="center_vertical">
             <TableRow>
                 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="?android:attr/listPreferredItemHeight"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:id="@+id/list_song_name" />
@@ -17,7 +22,6 @@
                 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="?android:attr/listPreferredItemHeight"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:id="@+id/list_album_name" />
