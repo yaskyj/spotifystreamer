@@ -3,7 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="thumbnail_size">80dp</dimen>
-    <dimen name="artist_search_margin">20dp</dimen>
-    <dimen name="track_image_margin">20dp</dimen>
-    <dimen name="track_names_margin">5dp</dimen>
+    <dimen name="image_margin">20dp</dimen>
+    <dimen name="list_padding">20dp</dimen>
 </resources>

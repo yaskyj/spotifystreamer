@@ -30,7 +30,7 @@
         </activity>
         <activity
             android:name=".ArtistTracksActivity"
-            android:label="@string/title_activity_artist_tracks"
+            android:label="@string/top_tracks_name"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

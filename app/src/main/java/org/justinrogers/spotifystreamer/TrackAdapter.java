@@ -42,7 +42,7 @@ public class TrackAdapter extends ArrayAdapter<Track> {
             int littleThumbnailPos = track.album.images.size() - 1;
             Picasso.with(getContext()).load(track.album.images.get(littleThumbnailPos).url).into(albumImageView);
         } else {
-            Picasso.with(getContext()).load(R.drawable.abc_list_pressed_holo_dark).into(albumImageView);
+            Picasso.with(getContext()).load(R.drawable.default_image_substitute).into(albumImageView);
         }
         return convertView;
     }

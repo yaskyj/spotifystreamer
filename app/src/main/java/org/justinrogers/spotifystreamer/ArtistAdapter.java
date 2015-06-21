@@ -48,7 +48,7 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
             int littleThumbnailPos = artist.images.size() - 1;
             Picasso.with(getContext()).load(artist.images.get(littleThumbnailPos).url).into(artistImageView);
         } else {
-            Picasso.with(getContext()).load(R.drawable.abc_list_pressed_holo_dark).into(artistImageView);
+            Picasso.with(getContext()).load(R.drawable.default_image_substitute).into(artistImageView);
         }
 
         return convertView;
