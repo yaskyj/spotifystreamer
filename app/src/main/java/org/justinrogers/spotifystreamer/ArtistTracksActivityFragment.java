@@ -100,17 +100,21 @@ public class ArtistTracksActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Tracks result) {
-            if (result.tracks.isEmpty()) {
-                Toast.makeText(getActivity(), "This artist does not have any tracks available in your country.", Toast.LENGTH_SHORT).show();
+            if (result == null) {
+                Toast.makeText(getActivity(), "There may be a problem with your connection.", Toast.LENGTH_SHORT).show();
             } else {
-                /**
-                 * Creates the ParcelableTrackObject using the returned information from the API call
-                 */
-                mTrackAdapter.clear();
-                for (Track track : result.tracks) {
-                    String imageUrl = track.album.images.get(track.album.images.size() - 1).url;
-                    ParcelableTrackObject parcelableTrackObject = new ParcelableTrackObject(track.name, track.album.name, imageUrl);
-                    mTrackAdapter.add(parcelableTrackObject);
+                if (result.tracks.isEmpty()) {
+                    Toast.makeText(getActivity(), "This artist does not have any tracks available in your country.", Toast.LENGTH_SHORT).show();
+                } else {
+                    /**
+                     * Creates the ParcelableTrackObject using the returned information from the API call
+                     */
+                    mTrackAdapter.clear();
+                    for (Track track : result.tracks) {
+                        String imageUrl = track.album.images.get(track.album.images.size() - 1).url;
+                        ParcelableTrackObject parcelableTrackObject = new ParcelableTrackObject(track.name, track.album.name, imageUrl);
+                        mTrackAdapter.add(parcelableTrackObject);
+                    }
                 }
             }
         }

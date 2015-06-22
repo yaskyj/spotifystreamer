@@ -113,11 +113,15 @@ public class ArtistsSearchFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Artist> result) {
-            if (result.isEmpty()) {
-                Toast.makeText(getActivity(), "Artist not found. Please refine search term.", Toast.LENGTH_SHORT).show();
+            if (result == null) {
+                Toast.makeText(getActivity(), "There may be a problem with your connection.", Toast.LENGTH_SHORT).show();
             } else {
-                mArtistAdapter.clear();
-                mArtistAdapter.addAll(result);
+                if (result.isEmpty()) {
+                    Toast.makeText(getActivity(), "Artist not found. Please refine search term.", Toast.LENGTH_SHORT).show();
+                } else {
+                    mArtistAdapter.clear();
+                    mArtistAdapter.addAll(result);
+                }
             }
         }
     }
