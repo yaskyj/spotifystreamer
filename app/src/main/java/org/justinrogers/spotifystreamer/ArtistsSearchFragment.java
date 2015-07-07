@@ -63,7 +63,7 @@ public class ArtistsSearchFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || event.getAction() == KeyEvent.ACTION_DOWN) {
                     EditText artistName = (EditText) getActivity().findViewById(R.id.artist_search);
                     FetchArtistsTask fetchArtistsTask = new FetchArtistsTask();
                     fetchArtistsTask.execute(artistName.getText().toString());
