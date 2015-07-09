@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    <TableRow>
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:minHeight="?android:listPreferredItemHeight"
+    android:orientation="horizontal"
+    android:padding="@dimen/list_padding">
         <ImageView
             android:id="@+id/list_artist_image"
             android:layout_width="@dimen/thumbnail_size"
@@ -16,5 +19,4 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:id="@+id/list_artist_name" />
-    </TableRow>
-</TableLayout>
+</LinearLayout>
