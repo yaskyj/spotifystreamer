@@ -13,15 +13,24 @@ public class MainActivity extends ActionBarActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    private boolean mTwoPane;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_main, new ArtistsSearchFragment())
-                    .commit();
+        if (findViewById(R.id.artist_fragment) != null) {
+            mTwoPane = true;
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.artist_fragment, new ArtistsSearchFragment())
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
         }
+
+//        ArtistsSearchFragment artistsSearchFragment = (ArtistsSearchFragment) getSupportFragmentManager().findFragmentById(R.id.artist_fragment);
+
     }
 
 }
