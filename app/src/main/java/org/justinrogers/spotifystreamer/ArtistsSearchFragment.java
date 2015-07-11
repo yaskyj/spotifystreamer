@@ -28,7 +28,6 @@ import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
 import retrofit.RetrofitError;
-import android.content.Intent;
 import android.widget.Toast;
 
 /**
@@ -80,10 +79,9 @@ public class ArtistsSearchFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String spotifyId = mArtistAdapter.getItem(position).id;
-                Intent intent = new Intent(getActivity(), ArtistTracksActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, spotifyId)
-                        .putExtra("artistName", mArtistAdapter.getItem(position).name);
-                startActivity(intent);
+                String artistName = mArtistAdapter.getItem(position).name;
+                ((Callback)getActivity())
+                        .onItemSelected(spotifyId, artistName);
             }
         });
         return rootView;
@@ -124,6 +122,10 @@ public class ArtistsSearchFragment extends Fragment {
                 }
             }
         }
+    }
+
+    public interface Callback {
+        public void onItemSelected(String id, String name);
     }
 
 }

@@ -5,6 +5,7 @@
 package org.justinrogers.spotifystreamer;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -48,12 +49,10 @@ public class ArtistTracksActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            tracksList = savedInstanceState.getParcelable("TracksList");
-        } else {
-            tracksList = new ArrayList<ParcelableTrackObject>();
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mArtistId = arguments.getString("artistId");
         }
-        mTrackAdapter = new TrackAdapter(getActivity(), R.layout.fragment_artist_tracks, tracksList);
     }
 
     @Override
@@ -61,8 +60,15 @@ public class ArtistTracksActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_artist_tracks, container, false);
 
-        Intent intent = getActivity().getIntent();
-        mArtistId = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (savedInstanceState != null) {
+            tracksList = savedInstanceState.getParcelable("TracksList");
+        } else {
+            tracksList = new ArrayList<ParcelableTrackObject>();
+        }
+        mTrackAdapter = new TrackAdapter(getActivity(), R.layout.fragment_artist_tracks, tracksList);
+
+//        Intent intent = getActivity().getIntent();
+//        mArtistId = intent.getStringExtra(Intent.EXTRA_TEXT);
         ListView trackList = (ListView) rootView.findViewById((R.id.artist_track_list));
         trackList.setAdapter(mTrackAdapter);
         FetchArtistTracks tracksTask = new FetchArtistTracks();

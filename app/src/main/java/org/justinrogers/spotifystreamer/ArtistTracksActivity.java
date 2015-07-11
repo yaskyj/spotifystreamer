@@ -13,19 +13,35 @@ import android.view.MenuItem;
 /** Basic Activity for the Top Ten Artist tracks and activates the Activity Fragment*/
 public class ArtistTracksActivity extends AppCompatActivity {
 
-    String mArtistName;
+    private String mArtistName;
+    private String mSpotifyId;
+    private ArtistTracksActivityFragment tracksActivityFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        mArtistName = intent.getStringExtra("artistName");
-        getSupportActionBar().setSubtitle(mArtistName);
+        if (intent != null) {
+            mArtistName = intent.getStringExtra("artistName");
+            mSpotifyId = intent.getStringExtra("artistId");
+            getSupportActionBar().setSubtitle(mArtistName);
+        }
         setContentView(R.layout.activity_artist_tracks);
+
         if (savedInstanceState == null) {
+            tracksActivityFragment = new ArtistTracksActivityFragment();
+
+            Bundle arguments = new Bundle();
+            arguments.putString("artistName", mArtistName);
+            arguments.putString("artistId", mSpotifyId);
+
+            tracksActivityFragment.setArguments(arguments);
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_tracks, new ArtistTracksActivityFragment())
+                    .add(R.id.container_tracks, tracksActivityFragment)
                     .commit();
+        } else {
+            tracksActivityFragment = (ArtistTracksActivityFragment) getSupportFragmentManager().findFragmentByTag("ArtistTracksActivityFragment");
         }
     }
 
