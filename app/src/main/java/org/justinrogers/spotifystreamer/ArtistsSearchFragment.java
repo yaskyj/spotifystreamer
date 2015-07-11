@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -43,6 +44,8 @@ public class ArtistsSearchFragment extends Fragment {
 
     private final String LOG_TAG = ArtistsSearchFragment.class.getSimpleName();
 
+    public SearchView searchView;
+
     public ArtistsSearchFragment() {
     }
 
@@ -54,25 +57,25 @@ public class ArtistsSearchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.search_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.search_fragment, container, false);
+
+        searchView = (SearchView) rootView.findViewById(R.id.artist_search);
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        FetchArtistsTask fetchArtistsTask = new FetchArtistsTask();
+                        fetchArtistsTask.execute(query);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+                });
+
         artistView = (ListView) rootView.findViewById(R.id.artist_search_list);
-        EditText artistText = (EditText) rootView.findViewById(R.id.artist_search);
-        /** Listens for search button press and executes FetchArtistsTask */
-        artistText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || event.getAction() == KeyEvent.ACTION_DOWN) {
-                    EditText artistName = (EditText) getActivity().findViewById(R.id.artist_search);
-                    FetchArtistsTask fetchArtistsTask = new FetchArtistsTask();
-                    fetchArtistsTask.execute(artistName.getText().toString());
-                    handled = true;
-                }
-                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(rootView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                return handled;
-            }
-        });
         artistView.setAdapter(mArtistAdapter);
         artistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

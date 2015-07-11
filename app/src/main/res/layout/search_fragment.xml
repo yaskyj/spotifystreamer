@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/list_background"
-    android:paddingLeft="@dimen/list_padding"
-    android:paddingRight="@dimen/list_padding">
+    tools:context="org.justinrogers.spotifystreamer.ArtistsSearchFragment">
 
-    <EditText
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/artist_search"
-        android:inputType="text"
-        android:imeOptions="actionSearch"/>
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/artist_search_list"
-        android:layout_marginTop="0dp" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:background="@color/list_background"
+        android:paddingLeft="@dimen/list_padding"
+        android:paddingRight="@dimen/list_padding">
+
+        <android.support.v7.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/artist_search"
+            app:iconifiedByDefault="false"
+            android:inputType="text" />
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/artist_search_list"
+            android:layout_marginTop="0dp" />
+    </LinearLayout>
+</FrameLayout>
