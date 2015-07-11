@@ -67,8 +67,6 @@ public class ArtistTracksActivityFragment extends Fragment {
         }
         mTrackAdapter = new TrackAdapter(getActivity(), R.layout.fragment_artist_tracks, tracksList);
 
-//        Intent intent = getActivity().getIntent();
-//        mArtistId = intent.getStringExtra(Intent.EXTRA_TEXT);
         ListView trackList = (ListView) rootView.findViewById((R.id.artist_track_list));
         trackList.setAdapter(mTrackAdapter);
         FetchArtistTracks tracksTask = new FetchArtistTracks();

@@ -38,7 +38,7 @@ public class ArtistTracksActivity extends AppCompatActivity {
             tracksActivityFragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_tracks, tracksActivityFragment)
+                    .add(R.id.container_tracks, tracksActivityFragment, "ArtistTracksActivityFragment")
                     .commit();
         } else {
             tracksActivityFragment = (ArtistTracksActivityFragment) getSupportFragmentManager().findFragmentByTag("ArtistTracksActivityFragment");
