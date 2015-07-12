@@ -32,7 +32,7 @@ import retrofit.RetrofitError;
  */
 public class ArtistTracksActivityFragment extends Fragment {
 
-    private static final String LOG_TAG = ArtistTracksActivity.class.getSimpleName();
+    private static final String LOG_TAG = ArtistTracksActivityFragment.class.getSimpleName();
     private String mArtistId;
     private TrackAdapter mTrackAdapter;
     private ArrayList<ParcelableTrackObject> tracksList;
@@ -46,18 +46,15 @@ public class ArtistTracksActivityFragment extends Fragment {
         savedInstanceState.putParcelableArrayList("TrackList", tracksList);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            mArtistId = arguments.getString("artistId");
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mArtistId = arguments.getString("artistId");
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_artist_tracks, container, false);
 
         if (savedInstanceState != null) {
@@ -65,10 +62,11 @@ public class ArtistTracksActivityFragment extends Fragment {
         } else {
             tracksList = new ArrayList<ParcelableTrackObject>();
         }
-        mTrackAdapter = new TrackAdapter(getActivity(), R.layout.fragment_artist_tracks, tracksList);
+        mTrackAdapter = new TrackAdapter(getActivity(), R.layout.list_item_tracks, tracksList);
 
         ListView trackList = (ListView) rootView.findViewById((R.id.artist_track_list));
         trackList.setAdapter(mTrackAdapter);
+
         FetchArtistTracks tracksTask = new FetchArtistTracks();
         tracksTask.execute(mArtistId);
 

@@ -4,26 +4,22 @@
 
 package org.justinrogers.spotifystreamer;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
@@ -44,7 +40,8 @@ public class ArtistsSearchFragment extends Fragment {
 
     private final String LOG_TAG = ArtistsSearchFragment.class.getSimpleName();
 
-    public SearchView searchView;
+    @Bind(R.id.artist_search)
+    SearchView searchView;
 
     public ArtistsSearchFragment() {
     }
@@ -58,8 +55,8 @@ public class ArtistsSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.search_fragment, container, false);
+        ButterKnife.bind(this, rootView);
 
-        searchView = (SearchView) rootView.findViewById(R.id.artist_search);
         searchView.setOnQueryTextListener(
                 new SearchView.OnQueryTextListener() {
                     @Override

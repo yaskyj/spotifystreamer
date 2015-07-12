@@ -7,41 +7,42 @@ package org.justinrogers.spotifystreamer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 /** Basic Activity for the Top Ten Artist tracks and activates the Activity Fragment*/
 public class ArtistTracksActivity extends AppCompatActivity {
 
+    private final String LOG_TAG = ArtistTracksActivity.class.getSimpleName();
     private String mArtistName;
     private String mSpotifyId;
-    private ArtistTracksActivityFragment tracksActivityFragment;
+    private ArtistTracksActivityFragment artistTracksActivityFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        if (intent != null) {
-            mArtistName = intent.getStringExtra("artistName");
-            mSpotifyId = intent.getStringExtra("artistId");
-            getSupportActionBar().setSubtitle(mArtistName);
-        }
         setContentView(R.layout.activity_artist_tracks);
 
         if (savedInstanceState == null) {
-            tracksActivityFragment = new ArtistTracksActivityFragment();
+            Intent intent = getIntent();
+            if (intent != null) {
+                mArtistName = intent.getStringExtra("artistName");
+                mSpotifyId = intent.getStringExtra("artistId");
+                getSupportActionBar().setSubtitle(mArtistName);
+            }
+
+            artistTracksActivityFragment = new ArtistTracksActivityFragment();
 
             Bundle arguments = new Bundle();
             arguments.putString("artistName", mArtistName);
             arguments.putString("artistId", mSpotifyId);
 
-            tracksActivityFragment.setArguments(arguments);
+            artistTracksActivityFragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_tracks, tracksActivityFragment, "ArtistTracksActivityFragment")
+                    .add(R.id.container_tracks, artistTracksActivityFragment, "ArtistTracksActivityFragment")
                     .commit();
-        } else {
-            tracksActivityFragment = (ArtistTracksActivityFragment) getSupportFragmentManager().findFragmentByTag("ArtistTracksActivityFragment");
         }
     }
 

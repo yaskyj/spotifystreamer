@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,8 +12,7 @@
         android:name="org.justinrogers.spotifystreamer.ArtistsSearchFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        tools:layout="@android:layout/list_content" />
+        android:layout_weight="2" />
 
     <FrameLayout
         android:id="@+id/artist_track_container"

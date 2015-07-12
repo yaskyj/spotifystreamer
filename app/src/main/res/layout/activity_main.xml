@@ -4,5 +4,4 @@
     android:name="org.justinrogers.spotifystreamer.ArtistsSearchFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.justinrogers.spotifystreamer.ArtistsSearchFragment"
-    tools:layout="@android:layout/list_content" />
+    tools:context="org.justinrogers.spotifystreamer.ArtistsSearchFragment" />
