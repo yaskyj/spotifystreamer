@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/artist_search"
             app:iconifiedByDefault="false"
-            android:inputType="text" />
+            android:inputType="text"
+            app:queryHint="@string/query_hint_artist"/>
         <ListView
             android:id="@+id/artist_search_list"
             android:layout_width="match_parent"
