@@ -18,17 +18,16 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
 
     private boolean mTwoPane;
     private ArtistTracksActivityFragment artistTracksActivityFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         if (findViewById(R.id.artist_track_container) != null) {
+
             mTwoPane = true;
-            if (savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.artist_track_container, new ArtistsSearchFragment())
-                        .commit();
-            }
+
         } else {
             mTwoPane = false;
         }

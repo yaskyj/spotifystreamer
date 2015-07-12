@@ -41,7 +41,7 @@ public class ArtistTracksActivity extends AppCompatActivity {
             artistTracksActivityFragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_tracks, artistTracksActivityFragment, "ArtistTracksActivityFragment")
+                    .add(R.id.artist_track_container, artistTracksActivityFragment, "ArtistTracksActivityFragment")
                     .commit();
         }
     }
