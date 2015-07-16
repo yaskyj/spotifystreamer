@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class ArtistTracksActivityFragment extends Fragment {
     private String mArtistId;
     private TrackAdapter mTrackAdapter;
     private ArrayList<ParcelableTrackObject> tracksList;
+    ListView trackList;
 
     public ArtistTracksActivityFragment() {
     }
@@ -64,12 +66,19 @@ public class ArtistTracksActivityFragment extends Fragment {
         }
         mTrackAdapter = new TrackAdapter(getActivity(), R.layout.list_item_tracks, tracksList);
 
-        ListView trackList = (ListView) rootView.findViewById((R.id.artist_track_list));
+        trackList = (ListView) rootView.findViewById((R.id.artist_track_list));
         trackList.setAdapter(mTrackAdapter);
 
         FetchArtistTracks tracksTask = new FetchArtistTracks();
         tracksTask.execute(mArtistId);
 
+        trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String trackId = mTrackAdapter.getItem(position).mName;
+                Log.d(LOG_TAG, trackId);
+            }
+        });
         return rootView;
     }
 

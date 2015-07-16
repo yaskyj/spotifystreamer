@@ -4,6 +4,7 @@
 
 package org.justinrogers.spotifystreamer;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -49,6 +50,10 @@ public class ArtistsSearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getActivity().getIntent();
+        if (savedInstanceState != null) {
+            artistsList = savedInstanceState.getParcelable("Artists");
+        }
         mArtistAdapter = new ArtistAdapter(getActivity(), R.layout.list_item_artists, artistsList);
     }
 
