@@ -76,7 +76,7 @@ public class ArtistTracksActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String trackId = mTrackAdapter.getItem(position).mName;
-                Log.d(LOG_TAG, trackId);
+//                Log.d(LOG_TAG, trackId);
             }
         });
         return rootView;
@@ -101,7 +101,6 @@ public class ArtistTracksActivityFragment extends Fragment {
             options.put("country", country);
             try {
                 Tracks tracks = spotify.getArtistTopTrack(params[0], options);
-                Log.d(LOG_TAG, tracks.tracks.getClass().toString());
                 return tracks;
             } catch (RetrofitError error) {
                 Log.e(LOG_TAG, error.toString());
@@ -123,7 +122,7 @@ public class ArtistTracksActivityFragment extends Fragment {
                     mTrackAdapter.clear();
                     for (Track track : result.tracks) {
                         String imageUrl = track.album.images.get(track.album.images.size() - 1).url;
-                        ParcelableTrackObject parcelableTrackObject = new ParcelableTrackObject(track.name, track.album.name, imageUrl);
+                        ParcelableTrackObject parcelableTrackObject = new ParcelableTrackObject(track.name, track.album.name, imageUrl, track.preview_url);
                         mTrackAdapter.add(parcelableTrackObject);
                     }
                 }

@@ -14,20 +14,23 @@ public class ParcelableTrackObject implements Parcelable {
     public String mName;
     public String mAlbum;
     public String mThumbnail;
+    public String mTrackUrl;
 
     /*
     * Takes a Name, Album, and Thumbnail input on object creation
     */
-    public ParcelableTrackObject(String name, String album, String thumbnail) {
+    public ParcelableTrackObject(String name, String album, String thumbnail, String trackUrl) {
         this.mName = name;
         this.mAlbum = album;
         this.mThumbnail = thumbnail;
+        this.mTrackUrl = trackUrl;
     }
 
     private ParcelableTrackObject(Parcel in) {
         mName = in.readString();
         mAlbum = in.readString();
         mThumbnail = in.readString();
+        mTrackUrl = in.readString();
     }
 
     public static final Creator<ParcelableTrackObject> CREATOR = new Creator<ParcelableTrackObject>() {
@@ -47,6 +50,7 @@ public class ParcelableTrackObject implements Parcelable {
         dest.writeString(this.mName);
         dest.writeString(this.mAlbum);
         dest.writeString(this.mThumbnail);
+        dest.writeString(this.mTrackUrl);
     }
 
     public int describeContents() {
