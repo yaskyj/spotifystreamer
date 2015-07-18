@@ -23,8 +23,4 @@ public class TrackPlayerFragment extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_track_player, container, false);
     }
-
-    public interface Callback {
-        public void onTrackSelected();
-    }
 }

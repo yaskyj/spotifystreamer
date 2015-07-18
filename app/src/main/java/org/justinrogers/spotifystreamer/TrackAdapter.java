@@ -37,7 +37,7 @@ public class TrackAdapter extends ArrayAdapter<ParcelableTrackObject> {
         */
         ParcelableTrackObject track = getItem(position);
         TextView songNameView = (TextView) convertView.findViewById(R.id.list_song_name);
-        songNameView.setText(track.mName);
+        songNameView.setText(track.mTrackName);
         TextView albumNameView = (TextView) convertView.findViewById(R.id.list_album_name);
         albumNameView.setText(track.mAlbum);
         ImageView albumImageView = (ImageView) convertView.findViewById(R.id.list_track_image);

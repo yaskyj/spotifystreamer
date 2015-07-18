@@ -12,7 +12,7 @@ import android.util.Log;
 /*
  * Basic MainActivity which also creates the Fragment for the Artist search
  */
-public class MainActivity extends AppCompatActivity implements ArtistsSearchFragment.Callback, TrackPlayerFragment.Callback {
+public class MainActivity extends AppCompatActivity implements ArtistsSearchFragment.Callback, ArtistTracksActivityFragment.Callback {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -58,8 +58,13 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
     }
 
     @Override
-    public void onTrackSelected() {
+    public void onTrackSelected(String artistName, String trackName, String trackUrl, String imageUrl,  String albumName) {
         Intent intent = new Intent(this, TrackPlayer.class);
-//        intent.putExtra()
+        intent.putExtra("artistName", artistName);
+        intent.putExtra("trackName", trackName);
+        intent.putExtra("trackUrl", trackUrl);
+        intent.putExtra("imageUrl", imageUrl);
+        intent.putExtra("albumName", albumName);
+        startActivity(intent);
     }
 }

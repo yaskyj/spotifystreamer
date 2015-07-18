@@ -75,8 +75,13 @@ public class ArtistTracksActivityFragment extends Fragment {
         trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String trackId = mTrackAdapter.getItem(position).mName;
-//                Log.d(LOG_TAG, trackId);
+                String artistName = mTrackAdapter.getItem(position).mArtistName;
+                String trackName = mTrackAdapter.getItem(position).mTrackName;
+                String trackUrl = mTrackAdapter.getItem(position).mTrackUrl;
+                String imageUrl = mTrackAdapter.getItem(position).mThumbnail;
+                String albumName = mTrackAdapter.getItem(position).mAlbum;
+                        ((Callback) getActivity())
+                        .onTrackSelected(artistName, trackName, trackUrl, imageUrl, albumName);
             }
         });
         return rootView;
@@ -121,12 +126,17 @@ public class ArtistTracksActivityFragment extends Fragment {
                      */
                     mTrackAdapter.clear();
                     for (Track track : result.tracks) {
-                        String imageUrl = track.album.images.get(track.album.images.size() - 1).url;
-                        ParcelableTrackObject parcelableTrackObject = new ParcelableTrackObject(track.name, track.album.name, imageUrl, track.preview_url);
+                        String imageUrl = track.album.images.get(0).url;
+                        ParcelableTrackObject parcelableTrackObject = new ParcelableTrackObject(track.name, track.album.name, imageUrl, track.preview_url, track.artists.get(0).name);
                         mTrackAdapter.add(parcelableTrackObject);
                     }
                 }
             }
         }
     }
+
+    public interface Callback {
+        public void onTrackSelected(String artistName, String trackName, String trackUrl, String imageUrl,  String albumName);
+    }
+
 }

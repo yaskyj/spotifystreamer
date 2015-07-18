@@ -11,26 +11,29 @@ import android.os.Parcelable;
  */
 public class ParcelableTrackObject implements Parcelable {
 
-    public String mName;
+    public String mTrackName;
     public String mAlbum;
     public String mThumbnail;
     public String mTrackUrl;
+    public String mArtistName;
 
     /*
     * Takes a Name, Album, and Thumbnail input on object creation
     */
-    public ParcelableTrackObject(String name, String album, String thumbnail, String trackUrl) {
-        this.mName = name;
+    public ParcelableTrackObject(String trackName, String album, String thumbnail, String trackUrl, String artistName) {
+        this.mTrackName = trackName;
         this.mAlbum = album;
         this.mThumbnail = thumbnail;
         this.mTrackUrl = trackUrl;
+        this.mArtistName = artistName;
     }
 
     private ParcelableTrackObject(Parcel in) {
-        mName = in.readString();
+        mTrackName = in.readString();
         mAlbum = in.readString();
         mThumbnail = in.readString();
         mTrackUrl = in.readString();
+        mArtistName = in.readString();
     }
 
     public static final Creator<ParcelableTrackObject> CREATOR = new Creator<ParcelableTrackObject>() {
@@ -47,10 +50,11 @@ public class ParcelableTrackObject implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.mName);
+        dest.writeString(this.mTrackName);
         dest.writeString(this.mAlbum);
         dest.writeString(this.mThumbnail);
         dest.writeString(this.mTrackUrl);
+        dest.writeString(this.mArtistName);
     }
 
     public int describeContents() {
