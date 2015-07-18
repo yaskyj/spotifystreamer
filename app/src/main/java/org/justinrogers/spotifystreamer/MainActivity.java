@@ -12,7 +12,7 @@ import android.util.Log;
 /*
  * Basic MainActivity which also creates the Fragment for the Artist search
  */
-public class MainActivity extends AppCompatActivity implements ArtistsSearchFragment.Callback {
+public class MainActivity extends AppCompatActivity implements ArtistsSearchFragment.Callback, TrackPlayerFragment.Callback {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -57,4 +57,9 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
         }
     }
 
+    @Override
+    public void onTrackSelected() {
+        Intent intent = new Intent(this, TrackPlayer.class);
+//        intent.putExtra()
+    }
 }
