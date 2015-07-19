@@ -80,7 +80,7 @@ public class ArtistTracksActivityFragment extends Fragment {
                 String trackUrl = mTrackAdapter.getItem(position).mTrackUrl;
                 String imageUrl = mTrackAdapter.getItem(position).mThumbnail;
                 String albumName = mTrackAdapter.getItem(position).mAlbum;
-                        ((Callback) getActivity())
+                ((ArtistTracksActivityFragment.Callback)getActivity())
                         .onTrackSelected(artistName, trackName, trackUrl, imageUrl, albumName);
             }
         });

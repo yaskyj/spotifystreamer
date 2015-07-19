@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 /** Basic Activity for the Top Ten Artist tracks and activates the Activity Fragment*/
-public class ArtistTracksActivity extends AppCompatActivity {
+public class ArtistTracksActivity extends AppCompatActivity implements ArtistTracksActivityFragment.Callback {
 
     private final String LOG_TAG = ArtistTracksActivity.class.getSimpleName();
     private String mArtistName;
@@ -67,5 +67,16 @@ public class ArtistTracksActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTrackSelected(String artistName, String trackName, String trackUrl, String imageUrl,  String albumName) {
+        Intent intent = new Intent(this, TrackPlayer.class);
+        intent.putExtra("artistName", artistName);
+        intent.putExtra("trackName", trackName);
+        intent.putExtra("trackUrl", trackUrl);
+        intent.putExtra("imageUrl", imageUrl);
+        intent.putExtra("albumName", albumName);
+        startActivity(intent);
     }
 }
