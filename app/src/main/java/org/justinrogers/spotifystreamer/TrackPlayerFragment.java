@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -36,6 +38,16 @@ public class TrackPlayerFragment extends Fragment {
     ImageView albumImage;
     @Bind(R.id.player_track_name)
     TextView trackName;
+    @Bind(R.id.play_button)
+    Button playButton;
+    @Bind(R.id.next_button)
+    Button nextButton;
+    @Bind(R.id.previous_button)
+    Button previousButton;
+    @Bind(R.id.seekbar)
+    SeekBar seekBar;
+
+    private int trackProgress = 0;
 
     public TrackPlayerFragment() {
     }
@@ -64,5 +76,9 @@ public class TrackPlayerFragment extends Fragment {
 
     public interface Callback {
         public void onTrackSelected(String artistName, String trackName, String trackUrl, String imageUrl,  String albumName);
+
+        public void onNext();
+
+        public void onPrevious();
     }
 }
