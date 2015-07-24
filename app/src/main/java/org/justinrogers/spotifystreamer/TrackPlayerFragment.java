@@ -28,22 +28,16 @@ public class TrackPlayerFragment extends Fragment {
     private String mTrackUrl;
     private String mArtistName;
 
+    @Bind(R.id.player_artist_name)
+    TextView artistName;
+    @Bind(R.id.player_album_name)
+    TextView albumName;
+    @Bind(R.id.player_album_thumbnail)
+    ImageView albumImage;
+    @Bind(R.id.player_track_name)
+    TextView trackName;
+
     public TrackPlayerFragment() {
-    }
-
-    public static class ViewHolder {
-        @Bind(R.id.player_artist_name)
-        TextView artistName;
-        @Bind(R.id.player_album_name)
-        TextView albumName;
-        @Bind(R.id.player_album_thumbnail)
-        ImageView albumImage;
-        @Bind(R.id.player_track_name)
-        TextView trackName;
-
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
     }
 
     @Override
@@ -59,13 +53,16 @@ public class TrackPlayerFragment extends Fragment {
         }
         View rootView = inflater.inflate(R.layout.fragment_track_player, container, false);
 
-        ViewHolder viewHolder = new ViewHolder(rootView);
-        viewHolder.artistName.setText(mArtistName);
-        viewHolder.trackName.setText(mTrackName);
-        viewHolder.albumName.setText(mAlbum);
-        Picasso.with(getActivity()).load(mThumbnail).into(viewHolder.albumImage);
+        ButterKnife.bind(this, rootView);
+        artistName.setText(mArtistName);
+        trackName.setText(mTrackName);
+        albumName.setText(mAlbum);
+        Picasso.with(getActivity()).load(mThumbnail).into(albumImage);
 
         return rootView;
     }
 
+    public interface Callback {
+        public void onTrackSelected(String artistName, String trackName, String trackUrl, String imageUrl,  String albumName);
+    }
 }

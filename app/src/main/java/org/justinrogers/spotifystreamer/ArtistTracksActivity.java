@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 /** Basic Activity for the Top Ten Artist tracks and activates the Activity Fragment*/
-public class ArtistTracksActivity extends AppCompatActivity implements ArtistTracksActivityFragment.Callback {
+public class ArtistTracksActivity extends AppCompatActivity implements TrackPlayerFragment.Callback {
 
     private final String LOG_TAG = ArtistTracksActivity.class.getSimpleName();
     private String mArtistName;
