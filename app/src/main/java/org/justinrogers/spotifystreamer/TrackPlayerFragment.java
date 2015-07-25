@@ -3,11 +3,14 @@
  */
 package org.justinrogers.spotifystreamer;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -22,13 +25,10 @@ import butterknife.ButterKnife;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TrackPlayerFragment extends Fragment {
+public class TrackPlayerFragment extends DialogFragment {
 
-    private String mTrackName;
-    private String mAlbum;
-    private String mThumbnail;
-    private String mTrackUrl;
-    private String mArtistName;
+    public static final String TRACK_INFO = "selectedTrack";
+    private ParcelableTrackObject trackToPlay;
 
     @Bind(R.id.player_artist_name)
     TextView artistName;
@@ -55,27 +55,34 @@ public class TrackPlayerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            mTrackName = arguments.getString("trackName");
-            mAlbum = arguments.getString("albumName");
-            mThumbnail = arguments.getString("imageUrl");
-            mTrackUrl = arguments.getString("trackUrl");
-            mArtistName = arguments.getString("artistName");
-        }
         View rootView = inflater.inflate(R.layout.fragment_track_player, container, false);
 
+        if (savedInstanceState == null) {
+            trackToPlay = getArguments().getParcelable(TRACK_INFO);
+        } else {
+            trackToPlay = savedInstanceState.getParcelable(TRACK_INFO);
+        }
+
         ButterKnife.bind(this, rootView);
-        artistName.setText(mArtistName);
-        trackName.setText(mTrackName);
-        albumName.setText(mAlbum);
-        Picasso.with(getActivity()).load(mThumbnail).into(albumImage);
+        artistName.setText(trackToPlay.mArtistName);
+        trackName.setText(trackToPlay.mTrackName);
+        albumName.setText(trackToPlay.mAlbum);
+        Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
 
         return rootView;
     }
 
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Base_Theme_AppCompat_Dialog);
+
+        return dialog;
+    }
+
     public interface Callback {
-        public void onTrackSelected(String artistName, String trackName, String trackUrl, String imageUrl,  String albumName);
+        public void onTrackSelected(ParcelableTrackObject selectedTrack);
 
         public void onNext();
 

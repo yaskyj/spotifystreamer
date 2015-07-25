@@ -4,10 +4,9 @@
 package org.justinrogers.spotifystreamer;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 /*
  * Basic MainActivity which also creates the Fragment for the Artist search
@@ -17,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private boolean mTwoPane;
+    private TrackPlayerFragment trackPlayerFragment;
     private ArtistTracksActivityFragment artistTracksActivityFragment;
 
     @Override
@@ -58,13 +58,27 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
     }
 
     @Override
-    public void onTrackSelected(String artistName, String trackName, String trackUrl, String imageUrl,  String albumName) {
-        Intent intent = new Intent(this, TrackPlayer.class);
-        intent.putExtra("artistName", artistName);
-        intent.putExtra("trackName", trackName);
-        intent.putExtra("trackUrl", trackUrl);
-        intent.putExtra("imageUrl", imageUrl);
-        intent.putExtra("albumName", albumName);
-        startActivity(intent);
+    public void onTrackSelected(ParcelableTrackObject selectedTrack) {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+        trackPlayerFragment = new TrackPlayerFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(TrackPlayerFragment.TRACK_INFO, selectedTrack);
+
+        trackPlayerFragment.setArguments(bundle);
+
+        trackPlayerFragment.show(getFragmentManager(), "dialog");
+//        getSupportFragmentManager().beginTransaction()
+//                .add(android.R.id.content, trackPlayerFragment)
+//                .addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onNext() {
+
+    }
+
+    @Override
+    public void onPrevious() {
+
     }
 }

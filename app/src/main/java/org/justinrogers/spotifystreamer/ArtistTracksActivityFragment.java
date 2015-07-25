@@ -38,6 +38,7 @@ public class ArtistTracksActivityFragment extends Fragment {
     private TrackAdapter mTrackAdapter;
     private ArrayList<ParcelableTrackObject> tracksList;
     ListView trackList;
+    private int mSelectedTrackId;
 
     public ArtistTracksActivityFragment() {
     }
@@ -75,13 +76,15 @@ public class ArtistTracksActivityFragment extends Fragment {
         trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String artistName = mTrackAdapter.getItem(position).mArtistName;
-                String trackName = mTrackAdapter.getItem(position).mTrackName;
-                String trackUrl = mTrackAdapter.getItem(position).mTrackUrl;
-                String imageUrl = mTrackAdapter.getItem(position).mThumbnail;
-                String albumName = mTrackAdapter.getItem(position).mAlbum;
-                ((TrackPlayerFragment.Callback)getActivity())
-                        .onTrackSelected(artistName, trackName, trackUrl, imageUrl, albumName);
+                mSelectedTrackId = position;
+                ParcelableTrackObject selectedTrack = mTrackAdapter.getItem(mSelectedTrackId);
+                String artistName = selectedTrack.mArtistName;
+                String trackName = selectedTrack.mTrackName;
+                String trackUrl = selectedTrack.mTrackUrl;
+                String imageUrl = selectedTrack.mThumbnail;
+                String albumName = selectedTrack.mAlbum;
+                ((TrackPlayerFragment.Callback) getActivity())
+                        .onTrackSelected(selectedTrack);
             }
         });
         return rootView;

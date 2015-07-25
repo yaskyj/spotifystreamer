@@ -6,6 +6,7 @@ package org.justinrogers.spotifystreamer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +19,7 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
     private String mArtistName;
     private String mSpotifyId;
     private ArtistTracksActivityFragment artistTracksActivityFragment;
+    private TrackPlayerFragment trackPlayerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
                 getSupportActionBar().setSubtitle(mArtistName);
             }
 
+            trackPlayerFragment = new TrackPlayerFragment();
             artistTracksActivityFragment = new ArtistTracksActivityFragment();
 
             Bundle arguments = new Bundle();
@@ -70,13 +73,21 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
     }
 
     @Override
-    public void onTrackSelected(String artistName, String trackName, String trackUrl, String imageUrl,  String albumName) {
-        Intent intent = new Intent(this, TrackPlayer.class);
-        intent.putExtra("artistName", artistName);
-        intent.putExtra("trackName", trackName);
-        intent.putExtra("trackUrl", trackUrl);
-        intent.putExtra("imageUrl", imageUrl);
-        intent.putExtra("albumName", albumName);
-        startActivity(intent);
+    public void onTrackSelected(ParcelableTrackObject selectedTrack) {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(TrackPlayerFragment.TRACK_INFO, selectedTrack);
+        trackPlayerFragment.setArguments(bundle);
+        trackPlayerFragment.show(getFragmentManager(), "dialog");
+    }
+
+    @Override
+    public void onPrevious() {
+
+    }
+
+    @Override
+    public void onNext() {
+
     }
 }
