@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
 
     @Override
     public void onTrackSelected(ParcelableTrackObject selectedTrack) {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
         trackPlayerFragment = new TrackPlayerFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(TrackPlayerFragment.TRACK_INFO, selectedTrack);
@@ -67,14 +66,12 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
         trackPlayerFragment.setArguments(bundle);
 
         trackPlayerFragment.show(getFragmentManager(), "dialog");
-//        getSupportFragmentManager().beginTransaction()
-//                .add(android.R.id.content, trackPlayerFragment)
-//                .addToBackStack(null).commit();
     }
 
     @Override
     public void onNext() {
-
+        ParcelableTrackObject track = artistTracksActivityFragment.loadNext();
+        trackPlayerFragment.onNext(track);
     }
 
     @Override

@@ -88,4 +88,20 @@ public class TrackPlayerFragment extends DialogFragment {
 
         public void onPrevious();
     }
+
+    public void onNext(ParcelableTrackObject selectedTrack) {
+        trackToPlay = selectedTrack;
+        artistName.setText(trackToPlay.mArtistName);
+        trackName.setText(trackToPlay.mTrackName);
+        albumName.setText(trackToPlay.mAlbum);
+        Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
+    }
+
+    public void onPrevious(ParcelableTrackObject selectedTrack) {
+        trackToPlay = selectedTrack;
+        artistName.setText(trackToPlay.mArtistName);
+        trackName.setText(trackToPlay.mTrackName);
+        albumName.setText(trackToPlay.mAlbum);
+        Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
+    }
 }
