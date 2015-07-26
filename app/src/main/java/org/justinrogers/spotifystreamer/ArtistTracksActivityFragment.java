@@ -62,9 +62,11 @@ public class ArtistTracksActivityFragment extends Fragment {
 
         if (savedInstanceState != null) {
             tracksList = savedInstanceState.getParcelable("TracksList");
+            mSelectedTrackId = savedInstanceState.getInt("selectedTrackId");
         } else {
             tracksList = new ArrayList<ParcelableTrackObject>();
         }
+
         mTrackAdapter = new TrackAdapter(getActivity(), R.layout.list_item_tracks, tracksList);
 
         trackList = (ListView) rootView.findViewById((R.id.artist_track_list));
@@ -78,16 +80,29 @@ public class ArtistTracksActivityFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mSelectedTrackId = position;
                 ParcelableTrackObject selectedTrack = mTrackAdapter.getItem(mSelectedTrackId);
-                String artistName = selectedTrack.mArtistName;
-                String trackName = selectedTrack.mTrackName;
-                String trackUrl = selectedTrack.mTrackUrl;
-                String imageUrl = selectedTrack.mThumbnail;
-                String albumName = selectedTrack.mAlbum;
                 ((TrackPlayerFragment.Callback) getActivity())
                         .onTrackSelected(selectedTrack);
             }
         });
         return rootView;
+    }
+
+    public ParcelableTrackObject loadNext() {
+        ParcelableTrackObject selectedTrack = null;
+        if (mSelectedTrackId < mTrackAdapter.getCount() - 1) {
+            mSelectedTrackId = mSelectedTrackId + 1;
+            selectedTrack = mTrackAdapter.getItem(mSelectedTrackId);
+        }
+        return selectedTrack;
+    }
+
+    public ParcelableTrackObject loadPrevious() {
+        ParcelableTrackObject selectedTrack = null;
+        if (mSelectedTrackId != 0) {
+            mSelectedTrackId = mSelectedTrackId - 1;
+            selectedTrack = mTrackAdapter.getItem(mSelectedTrackId);
+        }
+        return selectedTrack;
     }
 
     public class FetchArtistTracks extends AsyncTask<String, Void, Tracks> {
