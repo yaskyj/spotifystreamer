@@ -5,7 +5,8 @@ package org.justinrogers.spotifystreamer;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -27,6 +30,7 @@ import butterknife.ButterKnife;
  */
 public class TrackPlayerFragment extends DialogFragment {
 
+    private static final String LOG_TAG = TrackPlayerFragment.class.getSimpleName();
     public static final String TRACK_INFO = "selectedTrack";
     private ParcelableTrackObject trackToPlay;
 
@@ -62,12 +66,21 @@ public class TrackPlayerFragment extends DialogFragment {
         } else {
             trackToPlay = savedInstanceState.getParcelable(TRACK_INFO);
         }
-
+        String trackUrl = trackToPlay.mTrackUrl;
         ButterKnife.bind(this, rootView);
         artistName.setText(trackToPlay.mArtistName);
         trackName.setText(trackToPlay.mTrackName);
         albumName.setText(trackToPlay.mAlbum);
         Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return rootView;
     }
