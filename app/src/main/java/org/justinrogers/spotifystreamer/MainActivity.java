@@ -6,6 +6,7 @@ package org.justinrogers.spotifystreamer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 /*
  * Basic MainActivity which also creates the Fragment for the Artist search
@@ -75,6 +76,11 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
 
     @Override
     public void onPrevious() {
+        ParcelableTrackObject track = artistTracksActivityFragment.loadNext();
+        trackPlayerFragment.onPrevious(track);
+    }
 
+    public void play(View w) {
+        trackPlayerFragment.play(w);
     }
 }

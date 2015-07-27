@@ -28,11 +28,12 @@ import butterknife.ButterKnife;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TrackPlayerFragment extends DialogFragment {
+public class TrackPlayerFragment extends DialogFragment implements View.OnClickListener {
 
     private static final String LOG_TAG = TrackPlayerFragment.class.getSimpleName();
     public static final String TRACK_INFO = "selectedTrack";
     private ParcelableTrackObject trackToPlay;
+    public MediaPlayer mediaPlayer;
 
     @Bind(R.id.player_artist_name)
     TextView artistName;
@@ -66,13 +67,12 @@ public class TrackPlayerFragment extends DialogFragment {
         } else {
             trackToPlay = savedInstanceState.getParcelable(TRACK_INFO);
         }
-        String trackUrl = trackToPlay.mTrackUrl;
         ButterKnife.bind(this, rootView);
         artistName.setText(trackToPlay.mArtistName);
         trackName.setText(trackToPlay.mTrackName);
         albumName.setText(trackToPlay.mAlbum);
         Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
-        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
@@ -103,18 +103,68 @@ public class TrackPlayerFragment extends DialogFragment {
     }
 
     public void onNext(ParcelableTrackObject selectedTrack) {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
         trackToPlay = selectedTrack;
         artistName.setText(trackToPlay.mArtistName);
         trackName.setText(trackToPlay.mTrackName);
         albumName.setText(trackToPlay.mAlbum);
         Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
+        try {
+            mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onPrevious(ParcelableTrackObject selectedTrack) {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
         trackToPlay = selectedTrack;
         artistName.setText(trackToPlay.mArtistName);
         trackName.setText(trackToPlay.mTrackName);
         albumName.setText(trackToPlay.mAlbum);
         Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
+        try {
+            mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void play(View w) {
+        playButton = (Button) w;
+        if (mediaPlayer.isPlaying()) {
+            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_play, 0, 0, 0);
+            mediaPlayer.pause();
+        } else {
+            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_pause, 0, 0, 0);
+            mediaPlayer.start();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.play_button:
+                play(view);
+                break;
+            case R.id.previous_button:
+                ((Callback) getActivity()).onPrevious();
+                break;
+            case R.id.next_button:
+                ((Callback) getActivity()).onNext();
+                break;
+            default:
+                break;
+        }
     }
 }

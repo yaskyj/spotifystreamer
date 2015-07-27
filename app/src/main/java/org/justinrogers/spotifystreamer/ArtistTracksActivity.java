@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 /** Basic Activity for the Top Ten Artist tracks and activates the Activity Fragment*/
 public class ArtistTracksActivity extends AppCompatActivity implements TrackPlayerFragment.Callback {
@@ -82,12 +83,18 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
     }
 
     @Override
-    public void onPrevious() {
-
+    public void onNext() {
+        ParcelableTrackObject selectedTrack = artistTracksActivityFragment.loadNext();
+        trackPlayerFragment.onNext(selectedTrack);
     }
 
     @Override
-    public void onNext() {
+    public void onPrevious() {
+        ParcelableTrackObject selectedTrack = artistTracksActivityFragment.loadPrevious();
+        trackPlayerFragment.onPrevious(selectedTrack);
+    }
 
+    public void play(View w) {
+        trackPlayerFragment.play(w);
     }
 }
