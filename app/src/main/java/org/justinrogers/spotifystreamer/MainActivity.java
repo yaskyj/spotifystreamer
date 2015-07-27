@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /*
  * Basic MainActivity which also creates the Fragment for the Artist search
  */
@@ -58,10 +60,11 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
     }
 
     @Override
-    public void onTrackSelected(ParcelableTrackObject selectedTrack) {
+    public void onTrackSelected(ArrayList<ParcelableTrackObject> topTenTracks, int trackId) {
         trackPlayerFragment = new TrackPlayerFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(TrackPlayerFragment.TRACK_INFO, selectedTrack);
+        bundle.putParcelableArrayList(TrackPlayerFragment.TRACKS_INFO, topTenTracks);
+        bundle.putInt(TrackPlayerFragment.TRACK_ID, trackId);
 
         trackPlayerFragment.setArguments(bundle);
 
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
         trackPlayerFragment.onPrevious(track);
     }
 
-    public void play(View w) {
-        trackPlayerFragment.play(w);
+    public void play(View v) {
+        trackPlayerFragment.play(v);
     }
 }

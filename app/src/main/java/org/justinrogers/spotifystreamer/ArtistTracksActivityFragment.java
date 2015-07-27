@@ -79,9 +79,8 @@ public class ArtistTracksActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mSelectedTrackId = position;
-                ParcelableTrackObject selectedTrack = mTrackAdapter.getItem(mSelectedTrackId);
                 ((TrackPlayerFragment.Callback) getActivity())
-                        .onTrackSelected(selectedTrack);
+                        .onTrackSelected(tracksList, position);
             }
         });
         return rootView;

@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /** Basic Activity for the Top Ten Artist tracks and activates the Activity Fragment*/
 public class ArtistTracksActivity extends AppCompatActivity implements TrackPlayerFragment.Callback {
 
@@ -21,6 +23,7 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
     private String mSpotifyId;
     private ArtistTracksActivityFragment artistTracksActivityFragment;
     private TrackPlayerFragment trackPlayerFragment;
+    private ArrayList<ParcelableTrackObject> tracksList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +77,11 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
     }
 
     @Override
-    public void onTrackSelected(ParcelableTrackObject selectedTrack) {
+    public void onTrackSelected(ArrayList<ParcelableTrackObject> topTenTracks, int trackId) {
 //        FragmentManager fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(TrackPlayerFragment.TRACK_INFO, selectedTrack);
+        bundle.putParcelableArrayList(TrackPlayerFragment.TRACKS_INFO, topTenTracks);
+        bundle.putInt(TrackPlayerFragment.TRACK_ID, trackId);
         trackPlayerFragment.setArguments(bundle);
         trackPlayerFragment.show(getFragmentManager(), "dialog");
     }

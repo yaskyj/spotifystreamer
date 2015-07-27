@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,9 +32,12 @@ import butterknife.ButterKnife;
 public class TrackPlayerFragment extends DialogFragment implements View.OnClickListener {
 
     private static final String LOG_TAG = TrackPlayerFragment.class.getSimpleName();
-    public static final String TRACK_INFO = "selectedTrack";
+    public static final String TRACKS_INFO = "topTenTracks";
+    public static final String TRACK_ID = "trackId";
     private ParcelableTrackObject trackToPlay;
     public MediaPlayer mediaPlayer;
+    private ArrayList<ParcelableTrackObject> tracksList;
+    int trackId;
 
     @Bind(R.id.player_artist_name)
     TextView artistName;
@@ -62,18 +66,30 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_track_player, container, false);
 
-        if (savedInstanceState == null) {
-            trackToPlay = getArguments().getParcelable(TRACK_INFO);
-        } else {
-            trackToPlay = savedInstanceState.getParcelable(TRACK_INFO);
-        }
         ButterKnife.bind(this, rootView);
+
+        playButton.setOnClickListener(this);
+        nextButton.setOnClickListener(this);
+        previousButton.setOnClickListener(this);
+
+        if (savedInstanceState == null) {
+            tracksList = getArguments().getParcelableArrayList(TRACKS_INFO);
+            trackId = getArguments().getInt(TRACK_ID);
+        } else {
+            tracksList = savedInstanceState.getParcelableArrayList(TRACKS_INFO);
+            trackId = savedInstanceState.getInt(TRACK_ID);
+        }
+
+        trackToPlay = tracksList.get(trackId);
+
         artistName.setText(trackToPlay.mArtistName);
         trackName.setText(trackToPlay.mTrackName);
         albumName.setText(trackToPlay.mAlbum);
         Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
+
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
         try {
             mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
             mediaPlayer.prepare();
@@ -95,7 +111,7 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
     }
 
     public interface Callback {
-        public void onTrackSelected(ParcelableTrackObject selectedTrack);
+        public void onTrackSelected(ArrayList<ParcelableTrackObject> topTenTracks, int trackId);
 
         public void onNext();
 
@@ -107,11 +123,22 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
             mediaPlayer.release();
             mediaPlayer = null;
         }
+
+        if (trackId != tracksList.size()-1) {
+            trackId += 1;
+        }
+
+        trackToPlay = tracksList.get(trackId);
+
         trackToPlay = selectedTrack;
         artistName.setText(trackToPlay.mArtistName);
         trackName.setText(trackToPlay.mTrackName);
         albumName.setText(trackToPlay.mAlbum);
         Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
         try {
             mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
             mediaPlayer.prepare();
@@ -126,11 +153,22 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
             mediaPlayer.release();
             mediaPlayer = null;
         }
+
+        if (trackId != 0) {
+            trackId -= 1;
+        }
+
+        trackToPlay = tracksList.get(trackId);
+
         trackToPlay = selectedTrack;
         artistName.setText(trackToPlay.mArtistName);
         trackName.setText(trackToPlay.mTrackName);
         albumName.setText(trackToPlay.mAlbum);
         Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
         try {
             mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
             mediaPlayer.prepare();
@@ -140,13 +178,13 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
         }
     }
 
-    public void play(View w) {
-        playButton = (Button) w;
+    public void play(View view) {
+        playButton = (Button) view;
         if (mediaPlayer.isPlaying()) {
-            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_play, 0, 0, 0);
+            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_pause, 0, 0, 0);
             mediaPlayer.pause();
         } else {
-            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_pause, 0, 0, 0);
+            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_play, 0, 0, 0);
             mediaPlayer.start();
         }
     }
@@ -158,10 +196,10 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
                 play(view);
                 break;
             case R.id.previous_button:
-                ((Callback) getActivity()).onPrevious();
+                ((TrackPlayerFragment.Callback) getActivity()).onPrevious();
                 break;
             case R.id.next_button:
-                ((Callback) getActivity()).onNext();
+                ((TrackPlayerFragment.Callback) getActivity()).onNext();
                 break;
             default:
                 break;
