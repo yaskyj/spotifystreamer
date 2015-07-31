@@ -5,6 +5,7 @@ package org.justinrogers.spotifystreamer;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -125,12 +126,11 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
         }
 
         if (trackId != tracksList.size()-1) {
-            trackId += 1;
+            trackId = trackId + 1;
         }
 
         trackToPlay = tracksList.get(trackId);
 
-        trackToPlay = selectedTrack;
         artistName.setText(trackToPlay.mArtistName);
         trackName.setText(trackToPlay.mTrackName);
         albumName.setText(trackToPlay.mAlbum);
@@ -155,12 +155,11 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
         }
 
         if (trackId != 0) {
-            trackId -= 1;
+            trackId = trackId - 1;
         }
 
         trackToPlay = tracksList.get(trackId);
 
-        trackToPlay = selectedTrack;
         artistName.setText(trackToPlay.mArtistName);
         trackName.setText(trackToPlay.mTrackName);
         albumName.setText(trackToPlay.mAlbum);
@@ -203,6 +202,14 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 }

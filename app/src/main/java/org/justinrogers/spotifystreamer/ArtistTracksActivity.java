@@ -78,7 +78,7 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
 
     @Override
     public void onTrackSelected(ArrayList<ParcelableTrackObject> topTenTracks, int trackId) {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
+        trackPlayerFragment = new TrackPlayerFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(TrackPlayerFragment.TRACKS_INFO, topTenTracks);
         bundle.putInt(TrackPlayerFragment.TRACK_ID, trackId);
