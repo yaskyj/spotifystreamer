@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:text="0.00"
             android:layout_below="@+id/seekbar"
-            android:paddingLeft="10dp"
+            android:paddingLeft="15dp"
             android:layout_alignStart="@+id/seekbar"
             android:layout_alignLeft="@+id/seekbar" />
 
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="0.30"
             android:layout_below="@+id/seekbar"
-            android:paddingRight="10dp"
+            android:paddingRight="15dp"
             android:layout_alignEnd="@+id/seekbar"
             android:layout_alignRight="@+id/seekbar" />
 

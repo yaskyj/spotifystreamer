@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -42,6 +43,7 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
     private Handler durationHandler = new Handler();
     private ArrayList<ParcelableTrackObject> tracksList;
     int trackId;
+    DecimalFormat df = new DecimalFormat("#.##");
 
     @Bind(R.id.player_artist_name)
     TextView artistName;
@@ -59,6 +61,10 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
     Button previousButton;
     @Bind(R.id.seekbar)
     SeekBar seekBar;
+    @Bind(R.id.elapsed_time)
+    TextView elapsedTime;
+    @Bind(R.id.track_duration)
+    TextView trackDuration;
 
     public TrackPlayerFragment() {
     }
@@ -187,12 +193,14 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
         try {
             mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
             mediaPlayer.prepare();
+            trackDuration.setText(String.format( "%.2f", (double)mediaPlayer.getDuration()/100000));
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (mediaPlayer != null) {
                         seekBar.setMax(mediaPlayer.getDuration());
                         seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                        elapsedTime.setText(String.format( "%.2f", (double)mediaPlayer.getCurrentPosition()/100000));
                         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
                             @Override
