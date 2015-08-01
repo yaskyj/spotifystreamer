@@ -136,13 +136,12 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
         playerTasks();
     }
 
-    public void play(View view) {
-        playButton = (Button) view;
+    public void play() {
         if (mediaPlayer.isPlaying()) {
-            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_pause, 0, 0, 0);
+            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_play, 0, 0, 0);
             mediaPlayer.pause();
         } else {
-            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_play, 0, 0, 0);
+            playButton.setCompoundDrawablesRelativeWithIntrinsicBounds(android.R.drawable.ic_media_pause, 0, 0, 0);
             mediaPlayer.start();
         }
     }
@@ -151,7 +150,7 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.play_button:
-                play(view);
+                play();
                 break;
             case R.id.previous_button:
                 onPrevious();

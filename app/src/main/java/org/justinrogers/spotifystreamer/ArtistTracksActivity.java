@@ -92,7 +92,7 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
         trackPlayerFragment.onPrevious();
     }
 
-    public void play(View w) {
-        trackPlayerFragment.play(w);
+    public void play() {
+        trackPlayerFragment.play();
     }
 }

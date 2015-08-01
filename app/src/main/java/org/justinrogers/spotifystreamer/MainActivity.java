@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
         trackPlayerFragment.onPrevious();
     }
 
-    public void play(View v) {
-        trackPlayerFragment.play(v);
+    public void play() {
+        trackPlayerFragment.play();
     }
 }
