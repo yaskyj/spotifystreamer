@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Timer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,16 +32,14 @@ import butterknife.ButterKnife;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TrackPlayerFragment extends DialogFragment implements View.OnClickListener {
+public class TrackPlayerFragment extends DialogFragment implements View.OnClickListener{
 
     private static final String LOG_TAG = TrackPlayerFragment.class.getSimpleName();
     public static final String TRACKS_INFO = "topTenTracks";
     public static final String TRACK_ID = "trackId";
     private ParcelableTrackObject trackToPlay;
     public MediaPlayer mediaPlayer;
-    int duration;
-    int amountToUpdate;
-    Timer mTimer = new Timer();
+    private Handler durationHandler = new Handler();
     private ArrayList<ParcelableTrackObject> tracksList;
     int trackId;
 
@@ -61,8 +59,6 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
     Button previousButton;
     @Bind(R.id.seekbar)
     SeekBar seekBar;
-
-    private int trackProgress = 0;
 
     public TrackPlayerFragment() {
     }
@@ -191,6 +187,35 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
         try {
             mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
             mediaPlayer.prepare();
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null) {
+                        seekBar.setMax(mediaPlayer.getDuration());
+                        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int progress,
+                                                          boolean fromUser) {
+                                if (fromUser) {
+                                    mediaPlayer.seekTo(progress);
+                                }
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar) {
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar) {
+                            }
+
+                        });
+                    }
+                    durationHandler.postDelayed(this, 1000);
+                }
+            });
             mediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
