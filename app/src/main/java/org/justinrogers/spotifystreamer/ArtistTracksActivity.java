@@ -84,14 +84,12 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
 
     @Override
     public void onNext() {
-        ParcelableTrackObject selectedTrack = artistTracksActivityFragment.loadNext();
-        trackPlayerFragment.onNext(selectedTrack);
+        trackPlayerFragment.onNext();
     }
 
     @Override
     public void onPrevious() {
-        ParcelableTrackObject selectedTrack = artistTracksActivityFragment.loadPrevious();
-        trackPlayerFragment.onPrevious(selectedTrack);
+        trackPlayerFragment.onPrevious();
     }
 
     public void play(View w) {

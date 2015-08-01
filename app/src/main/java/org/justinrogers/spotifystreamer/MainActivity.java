@@ -80,14 +80,12 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
 
     @Override
     public void onNext() {
-        ParcelableTrackObject track = artistTracksActivityFragment.loadNext();
-        trackPlayerFragment.onNext(track);
+        trackPlayerFragment.onNext();
     }
 
     @Override
     public void onPrevious() {
-        ParcelableTrackObject track = artistTracksActivityFragment.loadNext();
-        trackPlayerFragment.onPrevious(track);
+        trackPlayerFragment.onPrevious();
     }
 
     public void play(View v) {

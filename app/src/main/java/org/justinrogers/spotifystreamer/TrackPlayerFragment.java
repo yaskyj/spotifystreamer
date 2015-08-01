@@ -108,7 +108,7 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
         public void onPrevious();
     }
 
-    public void onNext(ParcelableTrackObject selectedTrack) {
+    public void onNext() {
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
@@ -121,7 +121,7 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
         playerTasks();
     }
 
-    public void onPrevious(ParcelableTrackObject selectedTrack) {
+    public void onPrevious() {
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
@@ -152,10 +152,10 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
                 play(view);
                 break;
             case R.id.previous_button:
-                ((TrackPlayerFragment.Callback) getActivity()).onPrevious();
+                onPrevious();
                 break;
             case R.id.next_button:
-                ((TrackPlayerFragment.Callback) getActivity()).onNext();
+                onNext();
                 break;
             default:
                 break;

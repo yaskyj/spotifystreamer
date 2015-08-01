@@ -84,24 +84,6 @@ public class ArtistTracksActivityFragment extends Fragment {
         return rootView;
     }
 
-    public ParcelableTrackObject loadNext() {
-        ParcelableTrackObject selectedTrack = null;
-        if (mSelectedTrackId < mTrackAdapter.getCount() - 1) {
-            mSelectedTrackId = mSelectedTrackId + 1;
-            selectedTrack = mTrackAdapter.getItem(mSelectedTrackId);
-        }
-        return selectedTrack;
-    }
-
-    public ParcelableTrackObject loadPrevious() {
-        ParcelableTrackObject selectedTrack = null;
-        if (mSelectedTrackId != 0) {
-            mSelectedTrackId = mSelectedTrackId - 1;
-            selectedTrack = mTrackAdapter.getItem(mSelectedTrackId);
-        }
-        return selectedTrack;
-    }
-
     public class FetchArtistTracks extends AsyncTask<String, Void, Tracks> {
         private final String LOG_TAG = FetchArtistTracks.class.getSimpleName();
 
