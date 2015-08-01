@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,6 +39,9 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
     public static final String TRACK_ID = "trackId";
     private ParcelableTrackObject trackToPlay;
     public MediaPlayer mediaPlayer;
+    int duration;
+    int amountToUpdate;
+    Timer mTimer = new Timer();
     private ArrayList<ParcelableTrackObject> tracksList;
     int trackId;
 
@@ -81,23 +86,7 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
             trackId = savedInstanceState.getInt(TRACK_ID);
         }
 
-        trackToPlay = tracksList.get(trackId);
-
-        artistName.setText(trackToPlay.mArtistName);
-        trackName.setText(trackToPlay.mTrackName);
-        albumName.setText(trackToPlay.mAlbum);
-        Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
-
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-        try {
-            mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        playerTasks();
 
         return rootView;
     }
@@ -129,23 +118,7 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
             trackId = trackId + 1;
         }
 
-        trackToPlay = tracksList.get(trackId);
-
-        artistName.setText(trackToPlay.mArtistName);
-        trackName.setText(trackToPlay.mTrackName);
-        albumName.setText(trackToPlay.mAlbum);
-        Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
-
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-        try {
-            mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        playerTasks();
     }
 
     public void onPrevious(ParcelableTrackObject selectedTrack) {
@@ -158,23 +131,7 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
             trackId = trackId - 1;
         }
 
-        trackToPlay = tracksList.get(trackId);
-
-        artistName.setText(trackToPlay.mArtistName);
-        trackName.setText(trackToPlay.mTrackName);
-        albumName.setText(trackToPlay.mAlbum);
-        Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
-
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-        try {
-            mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        playerTasks();
     }
 
     public void play(View view) {
@@ -217,6 +174,26 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
+        }
+    }
+
+    public void playerTasks() {
+        trackToPlay = tracksList.get(trackId);
+
+        artistName.setText(trackToPlay.mArtistName);
+        trackName.setText(trackToPlay.mTrackName);
+        albumName.setText(trackToPlay.mAlbum);
+        Picasso.with(getActivity()).load(trackToPlay.mThumbnail).into(albumImage);
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        try {
+            mediaPlayer.setDataSource(trackToPlay.mTrackUrl);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
