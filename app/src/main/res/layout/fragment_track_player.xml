@@ -45,14 +45,25 @@
             android:minWidth="300dp"
             android:thumbOffset="10dp" />
 
-        <Button
-            android:id="@+id/play_button"
+        <TextView
+            android:id="@+id/elapsed_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@android:drawable/ic_media_play"
-            android:onClick="play"
+            android:text="0.00"
             android:layout_below="@+id/seekbar"
-            android:layout_centerHorizontal="true" />
+            android:paddingLeft="10dp"
+            android:layout_alignStart="@+id/seekbar"
+            android:layout_alignLeft="@+id/seekbar" />
+
+        <TextView
+            android:id="@+id/track_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.30"
+            android:layout_below="@+id/seekbar"
+            android:paddingRight="10dp"
+            android:layout_alignEnd="@+id/seekbar"
+            android:layout_alignRight="@+id/seekbar" />
 
         <Button
             android:id="@+id/previous_button"
@@ -60,9 +71,18 @@
             android:layout_height="wrap_content"
             android:drawableTop="@android:drawable/ic_media_previous"
             android:onClick="previous"
-            android:layout_below="@+id/seekbar"
+            android:layout_below="@+id/elapsed_time"
             android:layout_alignStart="@+id/seekbar"
             android:layout_alignLeft="@+id/seekbar"/>
+
+        <Button
+            android:id="@+id/play_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@android:drawable/ic_media_play"
+            android:onClick="play"
+            android:layout_below="@+id/elapsed_time"
+            android:layout_centerHorizontal="true" />
 
         <Button
             android:id="@+id/next_button"
@@ -70,7 +90,7 @@
             android:layout_height="wrap_content"
             android:drawableTop="@android:drawable/ic_media_next"
             android:onClick="next"
-            android:layout_below="@+id/seekbar"
+            android:layout_below="@+id/elapsed_time"
             android:layout_alignEnd="@+id/seekbar"
             android:layout_alignRight="@+id/seekbar" />
 
