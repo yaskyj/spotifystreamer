@@ -4,8 +4,6 @@
 
 package org.justinrogers.spotifystreamer;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
