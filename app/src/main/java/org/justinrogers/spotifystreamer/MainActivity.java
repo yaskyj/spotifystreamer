@@ -3,6 +3,7 @@
  */
 package org.justinrogers.spotifystreamer;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -68,7 +69,14 @@ public class MainActivity extends AppCompatActivity implements ArtistsSearchFrag
 
         trackPlayerFragment.setArguments(bundle);
 
-        trackPlayerFragment.show(getFragmentManager(), "dialog");
+        if (mTwoPane) {
+            trackPlayerFragment.show(getFragmentManager(), "dialog");
+        } else {
+            getFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, trackPlayerFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
     @Override

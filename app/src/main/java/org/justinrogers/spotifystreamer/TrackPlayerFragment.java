@@ -212,4 +212,11 @@ public class TrackPlayerFragment extends DialogFragment implements View.OnClickL
             mediaPlayer = null;
         }
     }
+
+    public void stop() {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
 }

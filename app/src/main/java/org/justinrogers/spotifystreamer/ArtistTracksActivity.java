@@ -83,7 +83,10 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
         bundle.putParcelableArrayList(TrackPlayerFragment.TRACKS_INFO, topTenTracks);
         bundle.putInt(TrackPlayerFragment.TRACK_ID, trackId);
         trackPlayerFragment.setArguments(bundle);
-        trackPlayerFragment.show(getFragmentManager(), "dialog");
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, trackPlayerFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -100,5 +103,11 @@ public class ArtistTracksActivity extends AppCompatActivity implements TrackPlay
 
     public void play(View w) {
         trackPlayerFragment.play(w);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        trackPlayerFragment.stop();
     }
 }
